@@ -5,7 +5,12 @@ Proprietary and confidential.
 Written by Aravinth Raj R <aravinthr235@gmail.com>, 2025.
 */
 import { Router } from 'express';
+import { AuthController } from '@/src/controllers/auth.controller';
 
 const router = Router();
+
+router.post('/send-otp', AuthController.sendOTP);
+router.post('/google-login', AuthController.googleLogin);
+router.post('/verify-otp', AuthController.verifyOTP);
 
 export default router;

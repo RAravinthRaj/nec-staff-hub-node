@@ -12,7 +12,6 @@ import bodyParser from 'body-parser';
 import fs from 'fs';
 import Redis from 'ioredis';
 import path from 'path';
-
 import { ApolloServer } from '@apollo/server';
 import { expressMiddleware } from '@apollo/server/express4';
 import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
@@ -21,11 +20,31 @@ import { resolvers, typeDefs } from '@/src/graphql/graphql.schema';
 import router from '@/src/routes/rest.route';
 import { config } from '@/src/config/config';
 import logger from '@/src/utils/logger';
+import { sequelize } from '@/src/config/database';
+import '@/src/models';
 
-const app = express();
-app.use(cors());
-app.use(express.json());
-app.use(bodyParser.json());
+const restApp = express();
+const graphqlApp = express();
+
+restApp.use(
+  cors({
+    origin: '*',
+    credentials: true,
+  }),
+);
+
+graphqlApp.use(
+  cors({
+    origin: '*',
+    credentials: true,
+  }),
+);
+
+restApp.use(express.json());
+restApp.use(bodyParser.json());
+
+graphqlApp.use(express.json());
+graphqlApp.use(bodyParser.json());
 
 let dbConnection: mysql.Connection;
 let valkeyClient: Redis;
@@ -64,10 +83,23 @@ async function connectValkey() {
   return valkeyClient;
 }
 
-async function startRestServer() {
-  app.use('/rest', router);
+async function syncDatabase() {
+  try {
+    await sequelize.authenticate();
+    logger.info('🚀 Sequelize connected successfully');
 
-  app.listen(config.restPort, () => {
+    await sequelize.sync({ alter: true });
+    logger.info('🚀 Tables synced successfully');
+  } catch (error) {
+    logger.error('❌ Sequelize sync error:', error);
+    process.exit(1);
+  }
+}
+
+async function startRestServer() {
+  restApp.use('/rest', router);
+
+  restApp.listen(config.restPort, '0.0.0.0', () => {
     logger.info(`🚀 REST Server running at http://localhost:${config.restPort}/rest`);
   });
 }
@@ -92,14 +124,18 @@ async function startGraphqlServer() {
 
   await graphqlServer.start();
 
-  app.use(
+  graphqlApp.use(
     '/graphql',
     expressMiddleware(graphqlServer, {
-      context: async ({ req }) => ({ req, db: dbConnection, valkey: valkeyClient }),
+      context: async ({ req }) => ({
+        req,
+        db: dbConnection,
+        valkey: valkeyClient,
+      }),
     }),
   );
 
-  app.listen(config.graphqlPort, () => {
+  graphqlApp.listen(config.graphqlPort, '0.0.0.0', () => {
     logger.info(`🚀 GRAPHQL Server running at http://localhost:${config.graphqlPort}/graphql`);
   });
 }
@@ -110,9 +146,10 @@ async function startQueueWorkers() {
 
 (async function bootstrap() {
   await connectMySQL();
-  await connectValkey();
+  // await connectValkey();
+  await syncDatabase();
 
-  startRestServer();
-  // startGraphqlServer();
-  startQueueWorkers();
+  await startRestServer();
+  // await startGraphqlServer();
+  await startQueueWorkers();
 })();

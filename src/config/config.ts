@@ -35,6 +35,9 @@ export interface Config {
   jwtSignInExpiryTime: any;
 
   imageApiKey: string;
+  otpHashSecret: string;
+
+  googleClientId: string;
 }
 
 export const config: Config = {
@@ -64,4 +67,7 @@ export const config: Config = {
   jwtSignInExpiryTime: process.env.JWT_SIGN_IN_EXPIRES_IN || ' ',
 
   imageApiKey: process.env.IMG_BB_API_KEY || '',
+  otpHashSecret: process.env.OTP_HASH_SECRET || '',
+
+  googleClientId: process.env.GOOGLE_CLIENT_ID || '',
 };

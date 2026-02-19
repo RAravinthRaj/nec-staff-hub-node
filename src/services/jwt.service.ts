@@ -21,9 +21,8 @@ export class JwtService {
     return JwtService.instance;
   }
 
-  public generateToken(payload: object, isSignInToken: boolean): string {
-    const expiresIn = isSignInToken ? config.jwtSignInExpiryTime : config.jwtExpiryTime;
-
+  public generateToken(payload: object): string {
+    const expiresIn = config.jwtExpiryTime;
     return jwt.sign(payload, config.jwtSecretKey, {
       expiresIn,
     });
