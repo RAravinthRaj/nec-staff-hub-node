@@ -17,3 +17,8 @@ export enum Department {
 export enum Role {
   Admin = 'admin',
 }
+
+export enum UserStatus {
+  Active = 'active',
+  Inactive = 'inactive',
+}

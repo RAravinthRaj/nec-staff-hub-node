@@ -11,6 +11,7 @@ import { MailService } from '@/src/services/mail.service';
 import { JwtService } from '@/src/services/jwt.service';
 import { config } from '@/src/config/config';
 import { OAuth2Client } from 'google-auth-library';
+import { UserStatus } from '../config/enum.config';
 
 const googleClient = new OAuth2Client(config.googleClientId);
 export class AuthService {
@@ -23,6 +24,10 @@ export class AuthService {
 
     if (!user) {
       throw new Error('Email not registered');
+    }
+
+    if (user?.status === UserStatus.Inactive) {
+      throw new Error('Account is temporarily Suspended. Contact Admin');
     }
 
     const now = new Date();
@@ -58,6 +63,10 @@ export class AuthService {
 
     if (!user) {
       throw new Error('Email not registered');
+    }
+
+    if (user?.status === UserStatus.Inactive) {
+      throw new Error('Account is temporarily Suspended. Contact Admin');
     }
 
     const staff = await Staff.findOne({

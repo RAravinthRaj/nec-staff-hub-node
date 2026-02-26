@@ -1,8 +1,5 @@
-/* 
+/*
 © 2025 Aravinth Raj R. All rights reserved.
-Unauthorized copying of this file, via any medium, is strictly prohibited.
-Proprietary and confidential.  
-Written by Aravinth Raj R <aravinthr235@gmail.com>, 2025.
 */
 
 import { DataTypes, Model, Optional } from 'sequelize';
@@ -15,10 +12,12 @@ interface StaffAttributes {
   user_id: number;
   email: string;
   name: string;
-  roll_no: number;
+  roll_no: string;
   phone_no?: string;
   profile_image?: string;
   date_of_birth?: Date;
+  designation: string;
+  gender: string;
   department_id: number;
   created_at?: Date;
   updated_at?: Date;
@@ -35,10 +34,12 @@ export class Staff
   public user_id!: number;
   public email!: string;
   public name!: string;
-  public roll_no!: number;
+  public roll_no!: string;
   public phone_no!: string;
   public profile_image!: string;
   public date_of_birth!: Date;
+  public designation!: string;
+  public gender!: string;
   public department_id!: number;
 
   public readonly created_at!: Date;
@@ -80,7 +81,7 @@ Staff.init(
     },
 
     roll_no: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING(20),
       allowNull: false,
       unique: true,
     },
@@ -88,6 +89,16 @@ Staff.init(
     phone_no: {
       type: DataTypes.STRING(15),
       allowNull: true,
+    },
+
+    designation: {
+      type: DataTypes.STRING(150),
+      allowNull: false,
+    },
+
+    gender: {
+      type: DataTypes.ENUM('Male', 'Female', 'Other'),
+      allowNull: false,
     },
 
     profile_image: {

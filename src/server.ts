@@ -22,6 +22,7 @@ import { config } from '@/src/config/config';
 import logger from '@/src/utils/logger';
 import { sequelize } from '@/src/config/database';
 import '@/src/models';
+import { authenticateJWT } from './middlewares/authenticateJwt.middleware';
 
 const restApp = express();
 const graphqlApp = express();
@@ -126,12 +127,9 @@ async function startGraphqlServer() {
 
   graphqlApp.use(
     '/graphql',
+    authenticateJWT,
     expressMiddleware(graphqlServer, {
-      context: async ({ req }) => ({
-        req,
-        db: dbConnection,
-        valkey: valkeyClient,
-      }),
+      context: async ({ req }) => ({ req }),
     }),
   );
 
@@ -150,6 +148,6 @@ async function startQueueWorkers() {
   await syncDatabase();
 
   await startRestServer();
-  // await startGraphqlServer();
+  await startGraphqlServer();
   await startQueueWorkers();
 })();
