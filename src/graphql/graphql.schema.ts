@@ -5,14 +5,27 @@ Proprietary and confidential.
 Written by Aravinth Raj R <aravinthr235@gmail.com>, 2025.
 */
 import { mergeTypeDefs } from '@graphql-tools/merge';
-import { getProfileTypeDef, modelTypeDef, baseTypeDef } from './typeDefs';
-import { getProfile } from './resolvers';
+import {
+  getProfileTypeDef,
+  modelTypeDef,
+  baseTypeDef,
+  enumTypeDef,
+  getTimeTableTypeDef,
+} from './typeDefs';
+import { getProfile, getTimetable } from './resolvers';
 
-export const typeDefs = mergeTypeDefs([baseTypeDef, modelTypeDef, getProfileTypeDef]);
+export const typeDefs = mergeTypeDefs([
+  baseTypeDef,
+  enumTypeDef,
+  modelTypeDef,
+  getProfileTypeDef,
+  getTimeTableTypeDef,
+]);
 
 export const resolvers = {
   Query: {
     getProfile,
+    getTimetable,
   },
   Mutation: {},
 };

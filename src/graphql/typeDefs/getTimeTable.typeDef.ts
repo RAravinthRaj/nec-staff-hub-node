@@ -1,11 +1,14 @@
-/* 
+/*
 © 2025 Aravinth Raj R. All rights reserved.
 Unauthorized copying of this file, via any medium, is strictly prohibited.
 Proprietary and confidential.  
 Written by Aravinth Raj R <aravinthr235@gmail.com>, 2025.
 */
-export * from './getProfile.typeDef';
-export * from './model.typeDef';
-export * from './base.typeDef';
-export * from './enum.typeDef';
-export * from './getTimeTable.typeDef';
+
+import gql from 'graphql-tag';
+
+export const getTimeTableTypeDef = gql`
+  extend type Query {
+    getTimetable(day: DayOfWeek!): [Timetable!]!
+  }
+`;

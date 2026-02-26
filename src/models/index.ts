@@ -10,45 +10,47 @@ import { Role } from './role.model';
 import { UserRole } from './userRole.model';
 import { Staff } from './staff.model';
 import { Department } from './department.model';
+import { Period } from './period.model';
+import { Semester } from './semester.model';
+import { Year } from './year.model';
+import { Student } from './student.model';
+import { Batch } from './batch.model';
+import { Course } from './course.model';
+import { CourseBatch } from './courseBatch.model';
+import { CourseBatchStudent } from './courseBatchStudents.model';
+import { Timetable } from './timetable.model';
 
-User.belongsToMany(Role, {
-  through: {
-    model: UserRole,
-    unique: false,
-  },
-  foreignKey: 'user_id',
-  otherKey: 'role_id',
-  as: 'roles',
-});
+import {
+  userAssociations,
+  staffAssociations,
+  academicAssociations,
+  courseAssociations,
+  timetableAssociations,
+} from './associations';
 
-Role.belongsToMany(User, {
-  through: {
-    model: UserRole,
-    unique: false,
-  },
-  foreignKey: 'role_id',
-  otherKey: 'user_id',
-  as: 'users',
-});
+const applyAssociations = () => {
+  userAssociations();
+  staffAssociations();
+  academicAssociations();
+  courseAssociations();
+  timetableAssociations();
+};
 
-User.hasOne(Staff, {
-  foreignKey: 'user_id',
-  as: 'staffProfile',
-});
+applyAssociations();
 
-Staff.belongsTo(User, {
-  foreignKey: 'user_id',
-  as: 'user',
-});
-
-Department.hasMany(Staff, {
-  foreignKey: 'department_id',
-  as: 'staffMembers',
-});
-
-Staff.belongsTo(Department, {
-  foreignKey: 'department_id',
-  as: 'department',
-});
-
-export { User, Role, UserRole, Staff, Department };
+export {
+  User,
+  Role,
+  UserRole,
+  Staff,
+  Department,
+  Period,
+  Semester,
+  Year,
+  Student,
+  Batch,
+  Course,
+  CourseBatch,
+  CourseBatchStudent,
+  Timetable,
+};
