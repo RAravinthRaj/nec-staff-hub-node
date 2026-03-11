@@ -22,3 +22,9 @@ export enum UserStatus {
   Active = 'active',
   Inactive = 'inactive',
 }
+
+export enum AttendanceStatus {
+  PRESENT = 'present',
+  ABSENT = 'absent',
+  ON_DUTY = 'onduty',
+}

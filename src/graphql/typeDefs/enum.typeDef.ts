@@ -21,4 +21,10 @@ export const enumTypeDef = gql`
     ACTIVE
     INACTIVE
   }
+
+  enum AttendanceStatus {
+    PRESENT
+    ABSENT
+    ON_DUTY
+  }
 `;

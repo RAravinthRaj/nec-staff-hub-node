@@ -11,8 +11,10 @@ import {
   baseTypeDef,
   enumTypeDef,
   getTimeTableTypeDef,
+  getCourseBatchStudentsTypeDef,
+  attendanceEntryTypeDef,
 } from './typeDefs';
-import { getProfile, getTimetable } from './resolvers';
+import { getProfile, getTimetable, getCourseBatchStudents, attendanceEntry } from './resolvers';
 
 export const typeDefs = mergeTypeDefs([
   baseTypeDef,
@@ -20,12 +22,17 @@ export const typeDefs = mergeTypeDefs([
   modelTypeDef,
   getProfileTypeDef,
   getTimeTableTypeDef,
+  getCourseBatchStudentsTypeDef,
+  attendanceEntryTypeDef,
 ]);
 
 export const resolvers = {
   Query: {
     getProfile,
     getTimetable,
+    getCourseBatchStudents,
   },
-  Mutation: {},
+  Mutation: {
+    attendanceEntry,
+  },
 };

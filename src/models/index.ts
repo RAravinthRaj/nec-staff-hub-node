@@ -19,6 +19,9 @@ import { Course } from './course.model';
 import { CourseBatch } from './courseBatch.model';
 import { CourseBatchStudent } from './courseBatchStudents.model';
 import { Timetable } from './timetable.model';
+import { StudentOD } from './od.model';
+import { AttendanceEntry } from './attendanceEntry.model';
+import { Attendance } from './attendance.model';
 
 import {
   userAssociations,
@@ -26,6 +29,7 @@ import {
   academicAssociations,
   courseAssociations,
   timetableAssociations,
+  studentAssociations,
 } from './associations';
 
 const applyAssociations = () => {
@@ -34,6 +38,7 @@ const applyAssociations = () => {
   academicAssociations();
   courseAssociations();
   timetableAssociations();
+  studentAssociations();
 };
 
 applyAssociations();
@@ -53,4 +58,7 @@ export {
   CourseBatch,
   CourseBatchStudent,
   Timetable,
+  StudentOD,
+  AttendanceEntry,
+  Attendance,
 };

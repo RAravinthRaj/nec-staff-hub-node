@@ -71,4 +71,14 @@ export const courseAssociations = () => {
     otherKey: 'course_batch_id',
     as: 'courseBatches',
   });
+
+  CourseBatchStudent.belongsTo(Student, {
+    foreignKey: 'student_id',
+    as: 'student',
+  });
+
+  Student.hasMany(CourseBatchStudent, {
+    foreignKey: 'student_id',
+    as: 'courseBatchStudents',
+  });
 };

@@ -9,3 +9,5 @@ export * from './course.association';
 export * from './staff.association';
 export * from './timetable.association';
 export * from './user.association';
+export * from './student.association';
+export * from './academic.association';

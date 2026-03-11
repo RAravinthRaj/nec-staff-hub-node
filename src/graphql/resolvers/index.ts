@@ -6,3 +6,5 @@ Written by Aravinth Raj R <aravinthr235@gmail.com>, 2025.
 */
 export * from './getProfile.resolver';
 export * from './getTimeTable.resolver';
+export * from './getCourseBatchStudents.resolver';
+export * from './attendanceEntry.resolver';

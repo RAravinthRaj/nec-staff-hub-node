@@ -9,3 +9,5 @@ export * from './model.typeDef';
 export * from './base.typeDef';
 export * from './enum.typeDef';
 export * from './getTimeTable.typeDef';
+export * from './getCourseBatchStudents.typeDef';
+export * from './attendanceEntry.typeDef';
