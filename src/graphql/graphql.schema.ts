@@ -13,8 +13,20 @@ import {
   getTimeTableTypeDef,
   getCourseBatchStudentsTypeDef,
   attendanceEntryTypeDef,
+  leaveRequestTypeDef,
+  leaveCategoryTypeDef,
+  leaveRequestsTypeDef,
 } from './typeDefs';
-import { getProfile, getTimetable, getCourseBatchStudents, attendanceEntry } from './resolvers';
+import {
+  getProfile,
+  getTimetable,
+  getCourseBatchStudents,
+  attendanceEntry,
+  requestLeave,
+  getLeaveCategories,
+  getLeaveRequests,
+  cancelLeaveRequest,
+} from './resolvers';
 
 export const typeDefs = mergeTypeDefs([
   baseTypeDef,
@@ -24,6 +36,9 @@ export const typeDefs = mergeTypeDefs([
   getTimeTableTypeDef,
   getCourseBatchStudentsTypeDef,
   attendanceEntryTypeDef,
+  leaveRequestTypeDef,
+  leaveCategoryTypeDef,
+  leaveRequestsTypeDef,
 ]);
 
 export const resolvers = {
@@ -31,8 +46,12 @@ export const resolvers = {
     getProfile,
     getTimetable,
     getCourseBatchStudents,
+    leaveCategories: getLeaveCategories,
+    leaveRequests: getLeaveRequests,
   },
   Mutation: {
     attendanceEntry,
+    requestLeave,
+    cancelLeaveRequest,
   },
 };

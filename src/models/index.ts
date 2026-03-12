@@ -22,6 +22,9 @@ import { Timetable } from './timetable.model';
 import { StudentOD } from './od.model';
 import { AttendanceEntry } from './attendanceEntry.model';
 import { Attendance } from './attendance.model';
+import { Leave } from './leave.model';
+import { LeaveCategory } from './leaveCategory.model';
+import { LeaveBalance } from './leaveBalance.model';
 
 import {
   userAssociations,
@@ -30,6 +33,7 @@ import {
   courseAssociations,
   timetableAssociations,
   studentAssociations,
+  leaveAssociations,
 } from './associations';
 
 const applyAssociations = () => {
@@ -39,6 +43,7 @@ const applyAssociations = () => {
   courseAssociations();
   timetableAssociations();
   studentAssociations();
+  leaveAssociations();
 };
 
 applyAssociations();
@@ -61,4 +66,7 @@ export {
   StudentOD,
   AttendanceEntry,
   Attendance,
+  Leave,
+  LeaveCategory,
+  LeaveBalance,
 };

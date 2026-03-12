@@ -27,4 +27,15 @@ export const enumTypeDef = gql`
     ABSENT
     ON_DUTY
   }
+
+  enum LeaveType {
+    FULL_DAY
+    HALF_DAY
+  }
+
+  enum LeaveStatus {
+    PENDING
+    APPROVED
+    DECLINED
+  }
 `;

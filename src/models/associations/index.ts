@@ -11,3 +11,4 @@ export * from './timetable.association';
 export * from './user.association';
 export * from './student.association';
 export * from './academic.association';
+export * from './leave.association';

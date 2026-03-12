@@ -11,3 +11,6 @@ export * from './enum.typeDef';
 export * from './getTimeTable.typeDef';
 export * from './getCourseBatchStudents.typeDef';
 export * from './attendanceEntry.typeDef';
+export * from './leaveRequest.typeDef';
+export * from './leaveCategory.typeDef';
+export * from './leaveRequests.typeDef';

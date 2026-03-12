@@ -16,6 +16,10 @@ export enum Department {
 
 export enum Role {
   Admin = 'admin',
+  Hod = 'hod',
+  Staff = 'staff',
+  Oa = 'oa',
+  Hr = 'hr',
 }
 
 export enum UserStatus {
@@ -27,4 +31,10 @@ export enum AttendanceStatus {
   PRESENT = 'present',
   ABSENT = 'absent',
   ON_DUTY = 'onduty',
+}
+
+export enum LeaveStatus {
+  PENDING = 'pending',
+  APPROVED = 'approved',
+  DECLINED = 'declined',
 }

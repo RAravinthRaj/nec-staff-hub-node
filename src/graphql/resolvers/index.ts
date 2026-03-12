@@ -8,3 +8,7 @@ export * from './getProfile.resolver';
 export * from './getTimeTable.resolver';
 export * from './getCourseBatchStudents.resolver';
 export * from './attendanceEntry.resolver';
+export * from './requestLeave.resolver';
+export * from './getLeaveCategories.resolver';
+export * from './getLeaveRequests.resolver';
+export * from './cancelLeaveRequest.resolver';
