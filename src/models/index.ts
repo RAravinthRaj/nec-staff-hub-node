@@ -20,7 +20,6 @@ import { CourseBatch } from './courseBatch.model';
 import { CourseBatchStudent } from './courseBatchStudents.model';
 import { Timetable } from './timetable.model';
 import { StudentOD } from './od.model';
-import { AttendanceEntry } from './attendanceEntry.model';
 import { Attendance } from './attendance.model';
 import { Leave } from './leave.model';
 import { LeaveCategory } from './leaveCategory.model';
@@ -64,7 +63,6 @@ export {
   CourseBatchStudent,
   Timetable,
   StudentOD,
-  AttendanceEntry,
   Attendance,
   Leave,
   LeaveCategory,

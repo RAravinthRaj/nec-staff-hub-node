@@ -23,6 +23,7 @@ import logger from '@/src/utils/logger';
 import { sequelize } from '@/src/config/database';
 import '@/src/models';
 import { authenticateJWT } from './middlewares/authenticateJwt.middleware';
+import { bodySizeLimit, helmetMiddleware, httpsRedirect, rate_limiter } from './middlewares';
 
 const restApp = express();
 const graphqlApp = express();
@@ -46,6 +47,18 @@ restApp.use(bodyParser.json());
 
 graphqlApp.use(express.json());
 graphqlApp.use(bodyParser.json());
+
+restApp.use(rate_limiter);
+graphqlApp.use(rate_limiter);
+
+restApp.use(bodySizeLimit);
+graphqlApp.use(bodySizeLimit);
+
+restApp.use(httpsRedirect);
+graphqlApp.use(httpsRedirect);
+
+restApp.use(helmetMiddleware);
+graphqlApp.use(helmetMiddleware);
 
 let dbConnection: mysql.Connection;
 let valkeyClient: Redis;

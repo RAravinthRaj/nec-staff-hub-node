@@ -38,6 +38,9 @@ export interface Config {
   otpHashSecret: string;
 
   googleClientId: string;
+
+  rateLimitMinutes: number;
+  rateLimitRequests: number;
 }
 
 export const config: Config = {
@@ -70,4 +73,7 @@ export const config: Config = {
   otpHashSecret: process.env.OTP_HASH_SECRET || '',
 
   googleClientId: process.env.GOOGLE_CLIENT_ID || '',
+
+  rateLimitMinutes: Number(process.env.RATE_LIMIT_MINUTES) || 15,
+  rateLimitRequests: Number(process.env.RATE_LIMIT_MAX_REQUEST) || 100,
 };
