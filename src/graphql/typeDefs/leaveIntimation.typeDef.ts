@@ -7,10 +7,15 @@ Written by Aravinth Raj R <aravinthr235@gmail.com>, 2025.
 
 import gql from 'graphql-tag';
 
-export const leaveRequestsTypeDef = gql`
-  type LeaveRequest {
+export const leaveIntimationTypeDef = gql`
+  type LeaveIntimation {
     id: Int!
     staff_id: Int!
+    staff_name: String!
+    designation: String!
+    department_name: String!
+    department_abbreviation: String!
+    gender: String!
     category_id: Int!
     category_name: String
     leave_type: LeaveType!
@@ -22,10 +27,9 @@ export const leaveRequestsTypeDef = gql`
     documents: [String!]
     created_at: String
     updated_at: String
-    withdraw: Boolean!
   }
 
   extend type Query {
-    leaveRequests(status: String): [LeaveRequest!]!
+    leaveIntimations(status: String): [LeaveIntimation!]!
   }
 `;

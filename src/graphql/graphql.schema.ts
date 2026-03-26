@@ -16,6 +16,8 @@ import {
   leaveRequestTypeDef,
   leaveCategoryTypeDef,
   leaveRequestsTypeDef,
+  leaveIntimationTypeDef,
+  leaveApprovalTypeDef,
 } from './typeDefs';
 import {
   getProfile,
@@ -26,6 +28,9 @@ import {
   getLeaveCategories,
   getLeaveRequests,
   cancelLeaveRequest,
+  getLeaveIntimations,
+  getLeaveApprovals,
+  reviewLeaveRequest,
 } from './resolvers';
 
 export const typeDefs = mergeTypeDefs([
@@ -39,6 +44,8 @@ export const typeDefs = mergeTypeDefs([
   leaveRequestTypeDef,
   leaveCategoryTypeDef,
   leaveRequestsTypeDef,
+  leaveIntimationTypeDef,
+  leaveApprovalTypeDef,
 ]);
 
 export const resolvers = {
@@ -48,10 +55,13 @@ export const resolvers = {
     getCourseBatchStudents,
     leaveCategories: getLeaveCategories,
     leaveRequests: getLeaveRequests,
+    leaveIntimations: getLeaveIntimations,
+    leaveApprovals: getLeaveApprovals,
   },
   Mutation: {
     attendanceEntry,
     requestLeave,
     cancelLeaveRequest,
+    reviewLeaveRequest,
   },
 };

@@ -20,6 +20,7 @@ interface LeaveAttributes {
   end_date: number;
   status: LeaveStatus;
   reason?: string;
+  comments?: string;
   documents?: string[];
   withdraw: boolean;
   created_at?: Date;
@@ -29,7 +30,7 @@ interface LeaveAttributes {
 interface LeaveCreationAttributes
   extends Optional<
     LeaveAttributes,
-    'id' | 'reason' | 'documents' | 'withdraw' | 'created_at' | 'updated_at'
+    'id' | 'reason' | 'comments' | 'documents' | 'withdraw' | 'created_at' | 'updated_at'
   > {}
 
 export class Leave
@@ -44,6 +45,7 @@ export class Leave
   public end_date!: number;
   public status!: LeaveStatus;
   public reason!: string;
+  public comments!: string;
   public documents!: string[];
   public withdraw!: boolean;
 
@@ -91,6 +93,11 @@ Leave.init(
     },
 
     reason: {
+      type: DataTypes.STRING(255),
+      allowNull: true,
+    },
+
+    comments: {
       type: DataTypes.STRING(255),
       allowNull: true,
     },
