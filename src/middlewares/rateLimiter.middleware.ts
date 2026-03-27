@@ -5,8 +5,7 @@ Proprietary and confidential.
 Written by Aravinth Raj R <aravinthr235@gmail.com>, 2025.
 */
 
-import { Request } from 'express';
-import rateLimit from 'express-rate-limit';
+import rateLimit, { ipKeyGenerator } from 'express-rate-limit';
 import { config } from '@/src/config/config';
 
 export const rate_limiter = rateLimit({
@@ -16,8 +15,8 @@ export const rate_limiter = rateLimit({
   standardHeaders: true,
   legacyHeaders: false,
 
-  keyGenerator: (req: Request) => {
-    return (req as any).user?.id || req.ip || 'anonymous';
+  keyGenerator: (req: any) => {
+    return req.user?.id || ipKeyGenerator(req);
   },
 
   handler: (req, res) => {
