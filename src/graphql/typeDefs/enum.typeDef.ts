@@ -15,6 +15,7 @@ export const enumTypeDef = gql`
     THU
     FRI
     SAT
+    SUN
   }
 
   enum TimetableStatus {

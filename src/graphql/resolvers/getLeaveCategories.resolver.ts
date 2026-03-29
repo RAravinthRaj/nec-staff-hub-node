@@ -6,8 +6,8 @@ Written by Aravinth Raj R <aravinthr235@gmail.com>, 2025.
 */
 
 import { Request } from 'express';
-import { LeaveBalance, LeaveCategory, Staff } from '@/models';
-import logger from '@/utils/logger';
+import { LeaveBalance, LeaveCategory, Staff } from '../../models';
+import logger from '../../utils/logger';
 
 interface Context {
   req: Request;
