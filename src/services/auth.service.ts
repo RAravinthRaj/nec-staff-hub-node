@@ -52,7 +52,10 @@ export class AuthService {
       otp: rawOtp,
     });
 
-    return { message: 'OTP sent successfully' };
+    return {
+      message: 'OTP sent successfully',
+      ...(process.env.NODE_ENV !== 'production' && { rawOtp }),
+    };
   }
 
   static async googleLogin(userEmail: string) {
