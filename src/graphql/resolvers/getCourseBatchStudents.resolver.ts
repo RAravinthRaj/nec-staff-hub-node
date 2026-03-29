@@ -6,9 +6,9 @@ Written by Aravinth Raj R <aravinthr235@gmail.com>, 2025.
 */
 
 import { Request } from 'express';
-import { Attendance, CourseBatchStudent, Student, StudentOD } from '@/src/models';
+import { Attendance, CourseBatchStudent, Student, StudentOD } from '@/models';
 import { Op } from 'sequelize';
-import logger from '@/src/utils/logger';
+import logger from '@/utils/logger';
 
 interface Context {
   req: Request;

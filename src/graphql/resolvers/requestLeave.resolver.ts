@@ -6,10 +6,10 @@ Written by Aravinth Raj R <aravinthr235@gmail.com>, 2025.
 */
 
 import { Request } from 'express';
-import { sequelize } from '@/src/config/database';
-import { Leave, LeaveBalance, LeaveCategory, Staff } from '@/src/models';
-import { LeaveStatus } from '@/src/config/enum.config';
-import logger from '@/src/utils/logger';
+import { sequelize } from '@/config/database';
+import { Leave, LeaveBalance, LeaveCategory, Staff } from '@/models';
+import { LeaveStatus } from '@/config/enum.config';
+import logger from '@/utils/logger';
 
 interface RequestLeaveArgs {
   leave_type: string;

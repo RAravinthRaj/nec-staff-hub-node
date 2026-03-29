@@ -6,10 +6,10 @@ Written by Aravinth Raj R <aravinthr235@gmail.com>, 2025.
 */
 
 import crypto from 'crypto';
-import { User, Role, Staff } from '@/src/models';
-import { MailService } from '@/src/services/mail.service';
-import { JwtService } from '@/src/services/jwt.service';
-import { config } from '@/src/config/config';
+import { User, Role, Staff } from '@/models';
+import { MailService } from '@/services/mail.service';
+import { JwtService } from '@/services/jwt.service';
+import { config } from '@/config/config';
 import { OAuth2Client } from 'google-auth-library';
 import { UserStatus } from '../config/enum.config';
 

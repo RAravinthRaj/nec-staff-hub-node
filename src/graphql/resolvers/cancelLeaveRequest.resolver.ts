@@ -6,9 +6,9 @@ Written by Aravinth Raj R <aravinthr235@gmail.com>, 2025.
 */
 
 import { Request } from 'express';
-import { Leave, Staff } from '@/src/models';
-import { LeaveStatus } from '@/src/config/enum.config';
-import logger from '@/src/utils/logger';
+import { Leave, Staff } from '@/models';
+import { LeaveStatus } from '@/config/enum.config';
+import logger from '@/utils/logger';
 
 interface Context {
   req: Request;
@@ -18,11 +18,7 @@ interface CancelLeaveArgs {
   leave_id: number;
 }
 
-export const cancelLeaveRequest = async (
-  _: any,
-  args: CancelLeaveArgs,
-  context: Context,
-) => {
+export const cancelLeaveRequest = async (_: any, args: CancelLeaveArgs, context: Context) => {
   try {
     const authUser = (context.req as any).user;
     if (!authUser?.id) {

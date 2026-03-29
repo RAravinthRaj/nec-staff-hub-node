@@ -5,7 +5,7 @@ Proprietary and confidential.
 Written by Aravinth Raj R <aravinthr235@gmail.com>, 2025.
 */
 import { Router } from 'express';
-import { AuthController } from '@/src/controllers/auth.controller';
+import { AuthController } from '@/controllers/auth.controller';
 
 const router = Router();
 

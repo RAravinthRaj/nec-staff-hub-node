@@ -6,9 +6,9 @@ Written by Aravinth Raj R <aravinthr235@gmail.com>, 2025.
 */
 
 import { Request } from 'express';
-import { Leave, LeaveCategory, Role, Staff, User, Department } from '@/src/models';
-import { LeaveStatus } from '@/src/config/enum.config';
-import logger from '@/src/utils/logger';
+import { Leave, LeaveCategory, Role, Staff, User, Department } from '@/models';
+import { LeaveStatus } from '@/config/enum.config';
+import logger from '@/utils/logger';
 
 interface Context {
   req: Request;

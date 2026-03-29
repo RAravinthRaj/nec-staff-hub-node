@@ -6,9 +6,9 @@ Written by Aravinth Raj R <aravinthr235@gmail.com>, 2025.
 */
 
 import { Request } from 'express';
-import { Leave, Role, Staff, User } from '@/src/models';
-import { LeaveStatus } from '@/src/config/enum.config';
-import logger from '@/src/utils/logger';
+import { Leave, Role, Staff, User } from '@/models';
+import { LeaveStatus } from '@/config/enum.config';
+import logger from '@/utils/logger';
 
 interface Context {
   req: Request;
@@ -34,11 +34,7 @@ const normalizeStatus = (status: string): LeaveStatus => {
   throw new Error(`Invalid status: ${status}`);
 };
 
-export const reviewLeaveRequest = async (
-  _: any,
-  args: ReviewLeaveArgs,
-  context: Context,
-) => {
+export const reviewLeaveRequest = async (_: any, args: ReviewLeaveArgs, context: Context) => {
   try {
     const authUser = (context.req as any).user;
     if (!authUser?.id) {

@@ -16,12 +16,12 @@ import { ApolloServer } from '@apollo/server';
 import { expressMiddleware } from '@apollo/server/express4';
 import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
 import { ApolloServerPluginLandingPageDisabled } from '@apollo/server/plugin/disabled';
-import { resolvers, typeDefs } from '@/src/graphql/graphql.schema';
-import router from '@/src/routes/rest.route';
-import { config } from '@/src/config/config';
-import logger from '@/src/utils/logger';
-import { sequelize } from '@/src/config/database';
-import '@/src/models';
+import { resolvers, typeDefs } from '@/graphql/graphql.schema';
+import router from '@/routes/rest.route';
+import { config } from '@/config/config';
+import logger from '@/utils/logger';
+import { sequelize } from '@/config/database';
+import '@/models';
 import { authenticateJWT } from './middlewares/authenticateJwt.middleware';
 import { bodySizeLimit, helmetMiddleware, httpsRedirect, rate_limiter } from './middlewares';
 

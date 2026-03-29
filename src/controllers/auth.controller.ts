@@ -6,7 +6,7 @@ Written by Aravinth Raj R <aravinthr235@gmail.com>, 2025.
 */
 
 import { Request, Response } from 'express';
-import { AuthService } from '@/src/services/auth.service';
+import { AuthService } from '@/services/auth.service';
 
 export class AuthController {
   static async sendOTP(req: Request, res: Response) {

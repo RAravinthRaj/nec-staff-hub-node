@@ -6,8 +6,8 @@ Written by Aravinth Raj R <aravinthr235@gmail.com>, 2025.
 */
 
 import { Request } from 'express';
-import { Staff, Timetable, CourseBatch, Course, Batch, Period, Semester, Year } from '@/src/models';
-import logger from '@/src/utils/logger';
+import { Staff, Timetable, CourseBatch, Course, Batch, Period, Semester, Year } from '@/models';
+import logger from '@/utils/logger';
 
 interface Context {
   req: Request;
