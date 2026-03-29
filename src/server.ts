@@ -71,7 +71,13 @@ async function connectMySQL() {
       user: config.mySqlUser,
       password: config.mySqlPassword,
       database: config.mySqlDatabaseName,
-      ssl: { ca: fs.readFileSync(path.resolve(__dirname, '../ca.pem')) },
+
+      ssl: config.mySqlCertificate
+        ? {
+            ca: config.mySqlCertificate?.replace(/\\n/g, '\n'),
+            rejectUnauthorized: true,
+          }
+        : undefined,
     });
 
     logger.info('🚀 MySQL Database connected successfully');
@@ -81,7 +87,6 @@ async function connectMySQL() {
     process.exit(1);
   }
 }
-
 async function connectValkey() {
   valkeyClient = new Redis({
     host: config.valKeyHost,

@@ -17,6 +17,7 @@ export interface Config {
   mySqlPort: number;
   mySqlUser: string;
   mySqlPassword: string;
+  mySqlCertificate: string;
 
   valKeyServiceURI: string;
   valKeyHost: string;
@@ -52,6 +53,7 @@ export const config: Config = {
   mySqlPort: Number(process.env.MYSQL_PORT),
   mySqlUser: process.env.MYSQL_USER || '',
   mySqlPassword: process.env.MYSQL_PASSWORD || '',
+  mySqlCertificate: process.env.MYSQL_SSL_CERTIFICATE || '',
 
   valKeyServiceURI: process.env.VALKEY_SERVICE_URI || '',
   valKeyHost: process.env.VALKEY_HOST || '',
