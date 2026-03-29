@@ -16,7 +16,7 @@
   "main": "index.js",
   "scripts": {
     "lint": "eslint src --ext .ts",
-    "build": "tsc",
+    "build": "tsc && cp -r src/templates dist/src/templates",
     "start": "node dist/server.js",
     "dev": "nodemon --watch \"src/**/*.ts\" --exec \"ts-node -r tsconfig-paths/register\" src/server.ts",
     "test": "jest",
