@@ -6,8 +6,8 @@ Written by Aravinth Raj R <aravinthr235@gmail.com>, 2025.
 */
 
 import { Request } from 'express';
-import { Staff, Timetable, CourseBatch, Course, Batch, Period, Semester, Year } from '@/models';
-import logger from '@/utils/logger';
+import { Staff, Timetable, CourseBatch, Course, Batch, Period, Semester, Year } from '../../models';
+import logger from '../../utils/logger';
 
 interface Context {
   req: Request;
@@ -18,6 +18,10 @@ export const getTimetable = async (_: any, { day }: { day: string }, context: Co
     const authUser = (context.req as any).user;
     if (!authUser?.id) {
       throw new Error('Unauthorized: Invalid or missing token.');
+    }
+
+    if (!day || day === 'SUN') {
+      return [];
     }
 
     const validDays = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];

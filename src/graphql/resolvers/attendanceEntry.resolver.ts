@@ -6,9 +6,9 @@ Written by Aravinth Raj R <aravinthr235@gmail.com>, 2025.
 */
 
 import { Request } from 'express';
-import { Attendance, Staff } from '@/models';
-import { AttendanceStatus } from '@/config/enum.config';
-import logger from '@/utils/logger';
+import { Attendance, Staff } from '../../models';
+import { AttendanceStatus } from '../../config/enum.config';
+import logger from '../../utils/logger';
 
 interface Context {
   req: Request;
