@@ -16,9 +16,9 @@
   "main": "server.js",
   "scripts": {
     "lint": "eslint src --ext .ts",
-    "build": "tsc && cp -r src/templates dist/src/templates",
+    "build": "tsc && mkdir -p dist/templates && cp -r src/templates/* dist/templates/",
     "start": "node dist/server.js",
-    "dev": "nodemon --watch \"src/**/*.ts\" --exec \"ts-node -r tsconfig-paths/register\" src/server.ts",
+    "dev": "nodemon --watch \"src/**/*.ts\" --exec \"ts-node\" src/server.ts",
     "test": "jest",
     "test:watch": "jest --watch"
   },
