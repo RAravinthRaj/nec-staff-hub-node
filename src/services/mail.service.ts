@@ -51,26 +51,28 @@ export class MailService implements IMailService {
 
   public async sendOTP(args: SendOTPParams) {
     const { email, userName, otp } = args;
-    try {
-      const html = this.compileTemplate('otp-template', { userName, OTP: otp });
-      const result = await this.transporter.sendMail({
-        from: `NEC Staff Hub <${config.smtpUserName}>`,
-        to: email,
-        subject: 'OTP Verification Code',
-        html,
-        attachments: [
-          {
-            filename: 'logo.png',
-            path: path.join(__dirname, '..', 'templates', 'assets', 'logo.png'),
-            cid: 'logo',
-          },
-        ],
-      });
-      logger.info(`OTP Email Sent to ${email} - ${otp}`);
-      return result;
-    } catch (err) {
-      logger.error('Error in sendOTP:', err);
-      throw err;
-    }
+    logger.info(`OTP Email Sent to ${email} - ${otp}`);
+    return;
+    // try {
+    //   const html = this.compileTemplate('otp-template', { userName, OTP: otp });
+    //   const result = await this.transporter.sendMail({
+    //     from: `NEC Staff Hub <${config.smtpUserName}>`,
+    //     to: email,
+    //     subject: 'OTP Verification Code',
+    //     html,
+    //     attachments: [
+    //       {
+    //         filename: 'logo.png',
+    //         path: path.join(__dirname, '..', 'templates', 'assets', 'logo.png'),
+    //         cid: 'logo',
+    //       },
+    //     ],
+    //   });
+    //   logger.info(`OTP Email Sent to ${email} - ${otp}`);
+    //   return result;
+    // } catch (err) {
+    //   logger.error('Error in sendOTP:', err);
+    //   throw err;
+    // }
   }
 }
