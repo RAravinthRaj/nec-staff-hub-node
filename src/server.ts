@@ -21,6 +21,8 @@ import { sequelize } from './config/database';
 import { authenticateJWT } from './middlewares/authenticateJwt.middleware';
 import { bodySizeLimit, helmetMiddleware, httpsRedirect, rate_limiter } from './middlewares';
 import { ValkeyQueueService } from './services/valkeyQueue.service';
+import { DeviceToken, Notification } from './models';
+import { AttendanceReminderService } from './services/attendanceReminder.service';
 
 const restApp = express();
 const graphqlApp = express();
@@ -110,6 +112,8 @@ async function connectValkey() {
 async function syncDatabase() {
   try {
     await sequelize.authenticate();
+    await Notification.sync();
+    await DeviceToken.sync();
     logger.info('🚀 Sequelize connected successfully');
 
     logger.info('🚀 Tables synced successfully');
@@ -178,4 +182,5 @@ async function startQueueWorkers() {
   await startRestServer();
   await startGraphqlServer();
   await startQueueWorkers();
+  AttendanceReminderService.getInstance().start();
 })();

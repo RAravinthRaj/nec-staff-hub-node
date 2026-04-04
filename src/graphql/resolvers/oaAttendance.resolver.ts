@@ -23,6 +23,7 @@ import {
 } from '../../models';
 import logger from '../../utils/logger';
 import { OAAttendanceReportService } from '../../services/oaAttendanceReport.service';
+import { NotificationService } from '../../services/notification.service';
 import { ValkeyQueueService } from '../../services/valkeyQueue.service';
 
 interface Context {
@@ -556,11 +557,20 @@ export const saveOAAttendance = async (_: any, args: SaveOAAttendanceArgs, conte
           }
 
           if (normalizedStatus === AttendanceStatus.ON_DUTY) {
-            await StudentOD.upsert(
+            await StudentOD.destroy({
+              where: {
+                student_id: item.student_id,
+                date,
+              },
+              transaction,
+            });
+
+            await StudentOD.create(
               {
                 student_id: item.student_id,
                 date,
                 reason: item.reason?.trim() || 'Marked by OA',
+                updated_at: new Date(),
               },
               { transaction },
             );
@@ -576,19 +586,20 @@ export const saveOAAttendance = async (_: any, args: SaveOAAttendanceArgs, conte
           });
 
           if (args.mode === 'PERIOD') {
-            await Attendance.upsert(
+            await Attendance.create(
               {
                 student_id: item.student_id,
                 period_id: args.period_id!,
                 date,
                 status: normalizedStatus,
+                updated_at: new Date(),
               },
               { transaction },
             );
             continue;
           }
 
-          await OAAttendance.upsert(
+          await OAAttendance.create(
             {
               student_id: item.student_id,
               marked_by_staff_id: staff.id,
@@ -596,12 +607,38 @@ export const saveOAAttendance = async (_: any, args: SaveOAAttendanceArgs, conte
               status: normalizedStatus === AttendanceStatus.PRESENT
                 ? AttendanceStatus.PRESENT
                 : AttendanceStatus.ABSENT,
+              updated_at: new Date(),
             },
             { transaction },
           );
         }
       }
     });
+
+    const absentStudentIds = args.students
+      .filter((item) => normalizeAttendanceStatus(item.status) === AttendanceStatus.ABSENT)
+      .map((item) => item.student_id);
+
+    if (absentStudentIds.length > 0) {
+      const tutorUserIds =
+        await NotificationService.getInstance().getTutorUserIdsForAbsentStudents(
+          absentStudentIds,
+        );
+
+      await NotificationService.getInstance().createNotifications({
+        userIds: tutorUserIds,
+        title: 'OA Attendance Update',
+        message: `${absentStudentIds.length} student(s) were marked absent by OA attendance.`,
+        type: 'OA_ATTENDANCE_ABSENT',
+        entityType: 'oa_attendance',
+        data: {
+          mode: args.mode,
+          start_date: args.start_date,
+          end_date: args.end_date ?? null,
+          student_ids: absentStudentIds,
+        },
+      });
+    }
 
     return {
       success: true,

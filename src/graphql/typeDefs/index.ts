@@ -17,3 +17,4 @@ export * from './leaveCategory.typeDef';
 export * from './leaveRequests.typeDef';
 export * from './leaveIntimation.typeDef';
 export * from './leaveApproval.typeDef';
+export * from './notification.typeDef';

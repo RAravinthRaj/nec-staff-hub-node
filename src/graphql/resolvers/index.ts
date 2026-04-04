@@ -16,3 +16,4 @@ export * from './cancelLeaveRequest.resolver';
 export * from './getLeaveIntimations.resolver';
 export * from './getLeaveApprovals.resolver';
 export * from './reviewLeaveRequest.resolver';
+export * from './notification.resolver';

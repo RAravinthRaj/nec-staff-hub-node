@@ -8,6 +8,7 @@ Written by Aravinth Raj R <aravinthr235@gmail.com>, 2025.
 import { Request } from 'express';
 import { Leave, Role, Staff, User } from '../../models';
 import { LeaveStatus } from '../../config/enum.config';
+import { NotificationService } from '../../services/notification.service';
 import logger from '../../utils/logger';
 
 interface Context {
@@ -69,6 +70,31 @@ export const reviewLeaveRequest = async (_: any, args: ReviewLeaveArgs, context:
     leave.status = nextStatus;
     leave.comments = args.comments;
     await leave.save();
+
+    const staff = await Staff.findByPk(leave.staff_id);
+    if (staff?.user_id) {
+      await NotificationService.getInstance().createNotifications({
+        userIds: [Number(staff.user_id)],
+        title:
+          nextStatus === LeaveStatus.APPROVED
+            ? 'Leave Request Approved'
+            : 'Leave Request Rejected',
+        message:
+          nextStatus === LeaveStatus.APPROVED
+            ? 'Your leave request has been approved by HR.'
+            : 'Your leave request has been rejected by HR.',
+        type:
+          nextStatus === LeaveStatus.APPROVED
+            ? 'LEAVE_REQUEST_APPROVED'
+            : 'LEAVE_REQUEST_REJECTED',
+        entityType: 'leave',
+        entityId: leave.id,
+        data: {
+          leave_id: leave.id,
+          status: nextStatus,
+        },
+      });
+    }
 
     return {
       success: true,

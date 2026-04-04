@@ -19,6 +19,7 @@ import {
   leaveRequestsTypeDef,
   leaveIntimationTypeDef,
   leaveApprovalTypeDef,
+  notificationTypeDef,
 } from './typeDefs';
 import {
   getProfile,
@@ -37,6 +38,9 @@ import {
   saveOAAttendance,
   oaAttendanceReportStudents,
   exportOAAttendanceReport,
+  notifications,
+  markNotificationRead,
+  registerPushToken,
 } from './resolvers';
 
 export const typeDefs = mergeTypeDefs([
@@ -53,6 +57,7 @@ export const typeDefs = mergeTypeDefs([
   leaveRequestsTypeDef,
   leaveIntimationTypeDef,
   leaveApprovalTypeDef,
+  notificationTypeDef,
 ]);
 
 export const resolvers = {
@@ -67,6 +72,7 @@ export const resolvers = {
     leaveRequests: getLeaveRequests,
     leaveIntimations: getLeaveIntimations,
     leaveApprovals: getLeaveApprovals,
+    notifications,
   },
   Mutation: {
     attendanceEntry,
@@ -75,5 +81,7 @@ export const resolvers = {
     requestLeave,
     cancelLeaveRequest,
     reviewLeaveRequest,
+    markNotificationRead,
+    registerPushToken,
   },
 };

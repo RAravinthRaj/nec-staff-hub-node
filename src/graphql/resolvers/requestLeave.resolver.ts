@@ -11,6 +11,7 @@ import { Leave, LeaveBalance, LeaveCategory, Staff } from '../../models';
 import { LeaveStatus } from '../../config/enum.config';
 import { normalizeDocuments } from '../../utils/documents';
 import { SupabaseStorageService } from '../../services/supabaseStorage.service';
+import { NotificationService } from '../../services/notification.service';
 import logger from '../../utils/logger';
 
 interface RequestLeaveArgs {
@@ -161,6 +162,39 @@ export const requestLeave = async (_: any, args: RequestLeaveArgs, context: Cont
 
       return { leave, balance, warning, requiredDays, canSubmit: true };
     });
+
+    if (result.leave) {
+      const hrUserIds = await NotificationService.getInstance().getHrUserIds();
+      const hodUserIds = await NotificationService.getInstance().getHodUserIdsByDepartment(
+        staff.department_id,
+      );
+
+      await NotificationService.getInstance().createNotifications({
+        userIds: hrUserIds,
+        title: 'New Leave Request',
+        message: `${staff.name} submitted a new leave request for review.`,
+        type: 'LEAVE_REQUEST_CREATED',
+        entityType: 'leave',
+        entityId: result.leave.id,
+        data: {
+          leave_id: result.leave.id,
+          staff_id: staff.id,
+        },
+      });
+
+      await NotificationService.getInstance().createNotifications({
+        userIds: hodUserIds,
+        title: 'Leave Intimation',
+        message: `${staff.name} submitted a leave request in your department.`,
+        type: 'LEAVE_INTIMATION',
+        entityType: 'leave',
+        entityId: result.leave.id,
+        data: {
+          leave_id: result.leave.id,
+          staff_id: staff.id,
+        },
+      });
+    }
 
     return {
       success: Boolean(result.leave),

@@ -30,11 +30,6 @@ export class AuthService {
       throw new Error('Account is temporarily Suspended. Contact Admin');
     }
 
-    const now = new Date();
-    if (user.otp && user.otp_expiry && user.otp_expiry > now) {
-      return { message: 'OTP sent successfully' };
-    }
-
     const rawOtp = Math.floor(1000 + Math.random() * 9000).toString();
 
     const hashedOtp = this.hashOTP(rawOtp);
@@ -52,9 +47,11 @@ export class AuthService {
       otp: rawOtp,
     });
 
+    const shouldExposeOtp = process.env.NODE_ENV !== 'production';
+
     return {
-      message: 'OTP sent successfully',
-      ...(process.env.NODE_ENV !== 'production' && { rawOtp }),
+      message: shouldExposeOtp ? `OTP sent successfully. OTP: ${rawOtp}` : 'OTP sent successfully',
+      ...(shouldExposeOtp && { rawOtp }),
     };
   }
 

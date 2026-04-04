@@ -8,6 +8,7 @@ Written by Aravinth Raj R <aravinthr235@gmail.com>, 2025.
 import { Request } from 'express';
 import { Attendance, Staff } from '../../models';
 import { AttendanceStatus } from '../../config/enum.config';
+import { NotificationService } from '../../services/notification.service';
 import logger from '../../utils/logger';
 
 interface Context {
@@ -100,6 +101,31 @@ export const attendanceEntry = async (
     await Attendance.bulkCreate(attendanceRows, {
       updateOnDuplicate: ['status'],
     });
+
+    const absentStudentIds = attendanceRows
+      .filter((row) => row.status === AttendanceStatus.ABSENT)
+      .map((row) => row.student_id);
+
+    if (absentStudentIds.length > 0) {
+      const tutorUserIds =
+        await NotificationService.getInstance().getTutorUserIdsForAbsentStudents(
+          absentStudentIds,
+        );
+
+      await NotificationService.getInstance().createNotifications({
+        userIds: tutorUserIds,
+        title: 'Absent Students Marked',
+        message: `${absentStudentIds.length} student(s) were marked absent in attendance.`,
+        type: 'ATTENDANCE_ABSENT',
+        entityType: 'attendance',
+        entityId: period_id,
+        data: {
+          date,
+          period_id,
+          student_ids: absentStudentIds,
+        },
+      });
+    }
 
     return {
       success: true,

@@ -12,3 +12,4 @@ export * from './user.association';
 export * from './student.association';
 export * from './academic.association';
 export * from './leave.association';
+export * from './notification.association';

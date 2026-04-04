@@ -25,6 +25,8 @@ import { OAAttendance } from './oaAttendance.model';
 import { Leave } from './leave.model';
 import { LeaveCategory } from './leaveCategory.model';
 import { LeaveBalance } from './leaveBalance.model';
+import { Notification } from './notification.model';
+import { DeviceToken } from './deviceToken.model';
 
 import {
   userAssociations,
@@ -34,6 +36,7 @@ import {
   timetableAssociations,
   studentAssociations,
   leaveAssociations,
+  notificationAssociations,
 } from './associations';
 
 const applyAssociations = () => {
@@ -44,6 +47,7 @@ const applyAssociations = () => {
   timetableAssociations();
   studentAssociations();
   leaveAssociations();
+  notificationAssociations();
 };
 
 applyAssociations();
@@ -69,4 +73,6 @@ export {
   Leave,
   LeaveCategory,
   LeaveBalance,
+  Notification,
+  DeviceToken,
 };
