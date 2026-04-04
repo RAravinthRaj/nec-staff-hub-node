@@ -24,8 +24,7 @@ import { ValkeyQueueService } from './services/valkeyQueue.service';
 import { DeviceToken, Notification } from './models';
 import { AttendanceReminderService } from './services/attendanceReminder.service';
 
-const restApp = express();
-const graphqlApp = express();
+const app = express();
 const jsonBodyParser = express.json({ limit: config.requestBodyLimit });
 const bodyParserJson = bodyParser.json({ limit: config.requestBodyLimit });
 const urlEncodedBodyParser = express.urlencoded({
@@ -33,39 +32,21 @@ const urlEncodedBodyParser = express.urlencoded({
   limit: config.requestBodyLimit,
 });
 
-restApp.use(
+app.use(
   cors({
     origin: '*',
     credentials: true,
   }),
 );
 
-graphqlApp.use(
-  cors({
-    origin: '*',
-    credentials: true,
-  }),
-);
+app.use(jsonBodyParser);
+app.use(bodyParserJson);
+app.use(urlEncodedBodyParser);
 
-restApp.use(jsonBodyParser);
-restApp.use(bodyParserJson);
-restApp.use(urlEncodedBodyParser);
-
-graphqlApp.use(jsonBodyParser);
-graphqlApp.use(bodyParserJson);
-graphqlApp.use(urlEncodedBodyParser);
-
-restApp.use(rate_limiter);
-graphqlApp.use(rate_limiter);
-
-restApp.use(bodySizeLimit);
-graphqlApp.use(bodySizeLimit);
-
-restApp.use(httpsRedirect);
-graphqlApp.use(httpsRedirect);
-
-restApp.use(helmetMiddleware);
-graphqlApp.use(helmetMiddleware);
+app.use(rate_limiter);
+app.use(bodySizeLimit);
+app.use(httpsRedirect);
+app.use(helmetMiddleware);
 
 let dbConnection: mysql.Connection;
 let valkeyClient: Redis;
@@ -123,15 +104,7 @@ async function syncDatabase() {
   }
 }
 
-async function startRestServer() {
-  restApp.use('/rest', router);
-
-  restApp.listen(config.restPort, '0.0.0.0', () => {
-    logger.info(`🚀 REST Server running at http://localhost:${config.restPort}/rest`);
-  });
-}
-
-async function startGraphqlServer() {
+async function startServer() {
   const graphqlServer = new ApolloServer({
     typeDefs: typeDefs,
     resolvers: resolvers,
@@ -151,7 +124,9 @@ async function startGraphqlServer() {
 
   await graphqlServer.start();
 
-  graphqlApp.use(
+  app.use('/rest', router);
+
+  app.use(
     '/graphql',
     authenticateJWT,
     expressMiddleware(graphqlServer, {
@@ -159,8 +134,10 @@ async function startGraphqlServer() {
     }),
   );
 
-  graphqlApp.listen(config.graphqlPort, '0.0.0.0', () => {
-    logger.info(`🚀 GRAPHQL Server running at http://localhost:${config.graphqlPort}/graphql`);
+  app.listen(config.appPort, '0.0.0.0', () => {
+    logger.info(`🚀 API Server running at http://localhost:${config.appPort}`);
+    logger.info(`🚀 REST available at http://localhost:${config.appPort}/rest`);
+    logger.info(`🚀 GRAPHQL available at http://localhost:${config.appPort}/graphql`);
   });
 }
 
@@ -179,8 +156,7 @@ async function startQueueWorkers() {
   await connectValkey();
   await syncDatabase();
 
-  await startRestServer();
-  await startGraphqlServer();
+  await startServer();
   await startQueueWorkers();
   AttendanceReminderService.getInstance().start();
 })();

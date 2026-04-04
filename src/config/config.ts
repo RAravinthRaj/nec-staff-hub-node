@@ -25,6 +25,7 @@ export interface Config {
   valKeyUser: string;
   valKeyPassword: string;
 
+  appPort: number;
   restPort: number;
   graphqlPort: number;
 
@@ -65,6 +66,7 @@ export const config: Config = {
   valKeyUser: process.env.VALKEY_USER || '',
   valKeyPassword: process.env.VAKKEY_PASSWORD || '',
 
+  appPort: Number(process.env.PORT) || Number(process.env.APP_PORT) || Number(process.env.REST_PORT) || 3000,
   restPort: Number(process.env.REST_PORT) || 3000,
   graphqlPort: Number(process.env.GRAPHQL_PORT) || 3001,
 
