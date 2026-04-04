@@ -4,7 +4,6 @@ Unauthorized copying of this file, via any medium, is strictly prohibited.
 Proprietary and confidential.  
 Written by Aravinth Raj R <aravinthr235@gmail.com>, 2025.
 */
-import 'module-alias/register';
 import express from 'express';
 import mysql from 'mysql2/promise';
 import cors from 'cors';
@@ -21,9 +20,16 @@ import logger from './utils/logger';
 import { sequelize } from './config/database';
 import { authenticateJWT } from './middlewares/authenticateJwt.middleware';
 import { bodySizeLimit, helmetMiddleware, httpsRedirect, rate_limiter } from './middlewares';
+import { ValkeyQueueService } from './services/valkeyQueue.service';
 
 const restApp = express();
 const graphqlApp = express();
+const jsonBodyParser = express.json({ limit: config.requestBodyLimit });
+const bodyParserJson = bodyParser.json({ limit: config.requestBodyLimit });
+const urlEncodedBodyParser = express.urlencoded({
+  extended: true,
+  limit: config.requestBodyLimit,
+});
 
 restApp.use(
   cors({
@@ -39,11 +45,13 @@ graphqlApp.use(
   }),
 );
 
-restApp.use(express.json());
-restApp.use(bodyParser.json());
+restApp.use(jsonBodyParser);
+restApp.use(bodyParserJson);
+restApp.use(urlEncodedBodyParser);
 
-graphqlApp.use(express.json());
-graphqlApp.use(bodyParser.json());
+graphqlApp.use(jsonBodyParser);
+graphqlApp.use(bodyParserJson);
+graphqlApp.use(urlEncodedBodyParser);
 
 restApp.use(rate_limiter);
 graphqlApp.use(rate_limiter);
@@ -104,7 +112,6 @@ async function syncDatabase() {
     await sequelize.authenticate();
     logger.info('🚀 Sequelize connected successfully');
 
-    await sequelize.sync({ alter: true });
     logger.info('🚀 Tables synced successfully');
   } catch (error) {
     logger.error('❌ Sequelize sync error:', error);
@@ -154,12 +161,18 @@ async function startGraphqlServer() {
 }
 
 async function startQueueWorkers() {
+  if (!config.valKeyHost || !config.valKeyPort) {
+    logger.warn('Valkey configuration missing. Queue workers were not started.');
+    return;
+  }
+
+  await ValkeyQueueService.getInstance().startWorkers();
   logger.info('🚀 Queue Workers started successfully');
 }
 
 (async function bootstrap() {
   await connectMySQL();
-  // await connectValkey();
+  await connectValkey();
   await syncDatabase();
 
   await startRestServer();

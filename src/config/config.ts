@@ -37,11 +37,15 @@ export interface Config {
 
   imageApiKey: string;
   otpHashSecret: string;
+  supabaseUrl: string;
+  supabaseServiceRoleKey: string;
+  supabaseBucket: string;
 
   googleClientId: string;
 
   rateLimitMinutes: number;
   rateLimitRequests: number;
+  requestBodyLimit: string;
 }
 
 export const config: Config = {
@@ -73,9 +77,13 @@ export const config: Config = {
 
   imageApiKey: process.env.IMG_BB_API_KEY || '',
   otpHashSecret: process.env.OTP_HASH_SECRET || '',
+  supabaseUrl: process.env.SUPABASE_URL || '',
+  supabaseServiceRoleKey: process.env.SUPABASE_SERVICE_ROLE_KEY || '',
+  supabaseBucket: process.env.SUPABASE_BUCKET || 'leave-documents',
 
   googleClientId: process.env.GOOGLE_CLIENT_ID || '',
 
   rateLimitMinutes: Number(process.env.RATE_LIMIT_MINUTES) || 15,
   rateLimitRequests: Number(process.env.RATE_LIMIT_MAX_REQUEST) || 100,
+  requestBodyLimit: process.env.REQUEST_BODY_LIMIT || '25mb',
 };

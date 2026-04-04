@@ -13,6 +13,7 @@ import {
   getTimeTableTypeDef,
   getCourseBatchStudentsTypeDef,
   attendanceEntryTypeDef,
+  oaAttendanceTypeDef,
   leaveRequestTypeDef,
   leaveCategoryTypeDef,
   leaveRequestsTypeDef,
@@ -24,6 +25,8 @@ import {
   getTimetable,
   getCourseBatchStudents,
   attendanceEntry,
+  oaAttendanceMeta,
+  oaAttendanceStudents,
   requestLeave,
   getLeaveCategories,
   getLeaveRequests,
@@ -31,6 +34,9 @@ import {
   getLeaveIntimations,
   getLeaveApprovals,
   reviewLeaveRequest,
+  saveOAAttendance,
+  oaAttendanceReportStudents,
+  exportOAAttendanceReport,
 } from './resolvers';
 
 export const typeDefs = mergeTypeDefs([
@@ -41,6 +47,7 @@ export const typeDefs = mergeTypeDefs([
   getTimeTableTypeDef,
   getCourseBatchStudentsTypeDef,
   attendanceEntryTypeDef,
+  oaAttendanceTypeDef,
   leaveRequestTypeDef,
   leaveCategoryTypeDef,
   leaveRequestsTypeDef,
@@ -53,6 +60,9 @@ export const resolvers = {
     getProfile,
     getTimetable,
     getCourseBatchStudents,
+    oaAttendanceMeta,
+    oaAttendanceStudents,
+    oaAttendanceReportStudents,
     leaveCategories: getLeaveCategories,
     leaveRequests: getLeaveRequests,
     leaveIntimations: getLeaveIntimations,
@@ -60,6 +70,8 @@ export const resolvers = {
   },
   Mutation: {
     attendanceEntry,
+    saveOAAttendance,
+    exportOAAttendanceReport,
     requestLeave,
     cancelLeaveRequest,
     reviewLeaveRequest,

@@ -8,6 +8,7 @@ Written by Aravinth Raj R <aravinthr235@gmail.com>, 2025.
 import { Request } from 'express';
 import { Leave, LeaveCategory, Role, Staff, User, Department } from '../../models';
 import { LeaveStatus } from '../../config/enum.config';
+import { normalizeDocuments } from '../../utils/documents';
 import logger from '../../utils/logger';
 
 interface Context {
@@ -127,6 +128,7 @@ export const getLeaveIntimations = async (
           category_name: data?.category?.name ?? null,
           leave_type: normalizeLeaveTypeOut(data?.leave_type),
           status: normalizeLeaveStatusOut(data?.status),
+          documents: normalizeDocuments(data?.documents),
         };
       });
   } catch (err: any) {

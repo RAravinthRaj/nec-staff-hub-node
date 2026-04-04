@@ -9,6 +9,8 @@ import { Request } from 'express';
 import { sequelize } from '../../config/database';
 import { Leave, LeaveBalance, LeaveCategory, Staff } from '../../models';
 import { LeaveStatus } from '../../config/enum.config';
+import { normalizeDocuments } from '../../utils/documents';
+import { SupabaseStorageService } from '../../services/supabaseStorage.service';
 import logger from '../../utils/logger';
 
 interface RequestLeaveArgs {
@@ -93,6 +95,10 @@ export const requestLeave = async (_: any, args: RequestLeaveArgs, context: Cont
     const parsedStart = parseDate(start_date);
     const parsedEnd = parseDate(end_date);
     const normalizedType = normalizeLeaveType(leave_type);
+    const normalizedDocuments = normalizeDocuments(documents);
+    const uploadedDocuments = await SupabaseStorageService.getInstance().uploadBase64Documents(
+      normalizedDocuments,
+    );
     const requiredDays = calculateDays(parsedStart, parsedEnd, normalizedType);
 
     const result = await sequelize.transaction(async (transaction) => {
@@ -139,7 +145,7 @@ export const requestLeave = async (_: any, args: RequestLeaveArgs, context: Cont
           end_date: parsedEnd,
           status: LeaveStatus.PENDING,
           reason,
-          documents,
+          documents: uploadedDocuments,
         },
         { transaction },
       );

@@ -21,6 +21,13 @@ export interface IMailService {
   sendOTP(args: SendOTPParams): Promise<any>;
 }
 
+export interface SendAttachmentMailParams {
+  email: string;
+  subject: string;
+  html: string;
+  attachments: nodemailer.SendMailOptions['attachments'];
+}
+
 export class MailService implements IMailService {
   private static instance: MailService;
   private transporter: nodemailer.Transporter;
@@ -70,6 +77,26 @@ export class MailService implements IMailService {
       return result;
     } catch (err) {
       logger.error('Error in sendOTP:', err);
+      throw err;
+    }
+  }
+
+  public async sendAttachmentMail(args: SendAttachmentMailParams) {
+    const { email, subject, html, attachments } = args;
+
+    try {
+      const result = await this.transporter.sendMail({
+        from: `NEC Staff Hub <${config.smtpUserName}>`,
+        to: email,
+        subject,
+        html,
+        attachments,
+      });
+
+      logger.info(`Attachment email sent to ${email} - ${subject}`);
+      return result;
+    } catch (err) {
+      logger.error('Error in sendAttachmentMail:', err);
       throw err;
     }
   }

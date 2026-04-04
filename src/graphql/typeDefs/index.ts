@@ -11,6 +11,7 @@ export * from './getProfile.typeDef';
 export * from './getTimeTable.typeDef';
 export * from './getCourseBatchStudents.typeDef';
 export * from './attendanceEntry.typeDef';
+export * from './oaAttendance.typeDef';
 export * from './leaveRequest.typeDef';
 export * from './leaveCategory.typeDef';
 export * from './leaveRequests.typeDef';

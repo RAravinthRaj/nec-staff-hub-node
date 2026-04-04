@@ -17,6 +17,8 @@
   "scripts": {
     "lint": "eslint src --ext .ts",
     "build": "tsc",
+    "normalize:leave-documents": "ts-node -r tsconfig-paths/register src/scripts/normalizeLeaveDocuments.ts",
+    "sync:oa-attendance-table": "ts-node -r tsconfig-paths/register src/scripts/syncOaAttendanceTable.ts",
     "start": "node dist/server.js",
     "dev": "nodemon --watch \"src/**/*.ts\" --exec \"ts-node -r tsconfig-paths/register\" src/server.ts",
     "test": "jest",
@@ -43,7 +45,6 @@
     "handlebars": "^4.7.8",
     "helmet": "^8.1.0",
     "jsonwebtoken": "^9.0.2",
-    "module-alias": "^2.2.3",
     "mysql2": "^3.17.0",
     "nodemailer": "^7.0.3",
     "passport": "^0.7.0",
