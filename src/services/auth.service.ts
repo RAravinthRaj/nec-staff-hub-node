@@ -2,7 +2,7 @@
 © 2025 Aravinth Raj R. All rights reserved.
 Unauthorized copying of this file, via any medium, is strictly prohibited.
 Proprietary and confidential.  
-Written by Aravinth Raj R <aravinthr235@gmail.com>, 2025.
+Written by Aravinth Raj R <aravinthr235@gmail.com>, 2025
 */
 
 import crypto from 'crypto';
@@ -52,7 +52,10 @@ export class AuthService {
       otp: rawOtp,
     });
 
-    return { message: 'OTP sent successfully' };
+    return {
+      message: 'OTP sent successfully',
+      ...(process.env.NODE_ENV !== 'production' && { rawOtp }),
+    };
   }
 
   static async googleLogin(userEmail: string) {

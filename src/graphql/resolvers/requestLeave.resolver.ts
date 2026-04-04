@@ -96,9 +96,8 @@ export const requestLeave = async (_: any, args: RequestLeaveArgs, context: Cont
     const parsedEnd = parseDate(end_date);
     const normalizedType = normalizeLeaveType(leave_type);
     const normalizedDocuments = normalizeDocuments(documents);
-    const uploadedDocuments = await SupabaseStorageService.getInstance().uploadBase64Documents(
-      normalizedDocuments,
-    );
+    const uploadedDocuments =
+      await SupabaseStorageService.getInstance().uploadBase64Documents(normalizedDocuments);
     const requiredDays = calculateDays(parsedStart, parsedEnd, normalizedType);
 
     const result = await sequelize.transaction(async (transaction) => {
